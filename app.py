@@ -404,11 +404,17 @@ def update_treatment(disease_id):
         disease.prevention_tips = request.form['prevention_tips']
 
         db.session.commit()
-        return redirect(url_for('database'))
+
+        return '''
+        <script>
+            alert("Disease treatment updated successfully!");
+            window.location.href="/database";
+        </script>
+        '''
 
     return render_template(
         'admin/update_diseasestreatment.html',
-        disease=disease      # ✅ send as 'disease'
+        disease=disease
     )
 
 @app.route('/model_monitoring')
