@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disease Treatment Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:#f4f7f9;
+        }
+
+        .page-title{
+            font-weight:600;
+            margin-bottom:20px;
+        }
+
+        .card{
+            border:none;
+            border-radius:10px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .table thead{
+            background:#2d5016;
+            color:white;
+        }
+
+        .btn-success{
+            background:#2d5016;
+            border:none;
+        }
+
+        .btn-success:hover{
+            background:#244014;
+        }
+
+        label{
+            font-weight:500;
+            margin-bottom:6px;
+        }
+
+        textarea{
+            resize:none;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark" style="background:#0a0a0a;">
+    <div class="container-fluid">
+        <a href="/admin_dashboard" class="navbar-brand">← Admin Dashboard</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- VIEW TABLE CARD -->
+    <div class="card p-4 mb-4">
+        <h4 class="page-title">Disease Treatments</h4>
+
+        <table class="table table-bordered table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Disease Name</th>
+                    <th>Treatment</th>
+                    <th>Prevention Tips</th>
+                    <th width="120">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in diseases %}
+
+                <tr>
+                    <td>{{ item.disease_id }}</td>
+                    <td>{{ item.disease }}</td>
+                    <td style="max-width:300px;">{{ item.treatment }}</td>
+                    <td style="max-width:300px;">{{ item.prevention_tips }}</td>
+                    <td>
+                        <a href="{{ url_for('update_treatment', disease_id=item.disease_id) }}"
+                           class="btn btn-danger btn-sm w-100"
+                           onclick="return confirm('Update this record?')">
+                           Update
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    
+
+</div>
+
+</body>
+</html>

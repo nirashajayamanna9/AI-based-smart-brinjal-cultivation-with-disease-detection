@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brinjal Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <header>
+        <div class="logo">
+            
+            <h2>🌱 BRINJAL HUB</h2>
+        </div>
+
+        <nav>
+            <a href="{{ url_for('home') }}" class="active">Home</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+            <a href="{{ url_for('contactus') }}">Contact Us</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign up</a>
+        </nav>
+
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <p class="welcome">WELCOME TO BRINJAL CULTIVATION</p>
+            <h1>BRINGAL HUB</h1>
+            <p class="description">
+                We're excited to help you grow healthier brinjal plants using
+                AI-powered disease detection and expert care guidance.
+            </p>
+            <button class="btn">GET STARTED</button>
+        </div>
+    </section>
+
+</body>
+</html>

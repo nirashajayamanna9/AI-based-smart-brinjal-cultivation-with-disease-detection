@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brinjal Hub - Disease Detection</title>
+
+<style>
+    body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: #BCEC9F;
+}
+
+/* HEADER */
+
+header {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* NAVIGATION */
+
+nav a {
+    margin: 0 15px;
+    font-size: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+nav a.active {
+    font-weight: 600;
+    color: #24C55E;
+}
+
+/* LOGOUT BUTTON */
+
+.logout-btn {
+    padding: 6px 14px;
+    background: #1c521c;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: #1faa3f;
+}
+
+/* MAIN LAYOUT */
+
+.main-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 30px 40px;
+}
+
+/* LEFT SIDE */
+
+.left-section {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* RIGHT SIDE */
+
+.right-section {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* UPLOAD BOX */
+
+.upload-box {
+    background: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1.5px solid #8bc98b;
+}
+
+.upload-box h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.upload-box input[type="file"] {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* BUTTON */
+
+.submit-btn {
+    background: #28a745;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.submit-btn:hover {
+    background: #1f7e34;
+}
+
+/* RESULT BOX */
+
+.result-container {
+    padding: 18px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.value-box {
+    display: inline-block;
+    padding: 6px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border: 1.5px solid #333;
+    background: #f2fff2;
+    border-radius: 5px;
+}
+
+/* INFO BOXES */
+
+.info-box {
+    border: 1.5px solid #333;
+    padding: 18px;
+    background: #C9F7C8;
+    border-radius: 10px;
+}
+
+.info-box h2 {
+    text-align: center;
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.info-box p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* IMAGE PREVIEW */
+
+#preview {
+    width: 180px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 BRINJAL HUB</h2>
+    <nav>
+        <a href="{{ url_for('mainhome') }}">Home</a>
+        <a href="{{ url_for('guideline') }}">Guideline</a>
+        <a href="{{ url_for('weatherguideline') }}">Weather Guideline</a>
+        <a href="{{ url_for('dieaseasDetection') }}" class="active">Disease Detection</a>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </nav>
+</header>
+
+<div class="main-wrapper">
+
+    <!-- LEFT SIDE -->
+    <div class="left-section">
+
+        <div class="upload-box">
+            <h3>Upload brinjal plant image</h3>
+
+            <form id="uploadForm">
+                <input type="file" id="imageInput" name="file" required>
+                <br>
+                <img id="preview" style="display:none; width:200px; margin-top:10px;">
+                <br>
+                <button type="submit" class="submit-btn">Analyze</button>
+            </form>
+        </div>
+
+        <div class="result-container">
+            <p>
+                <span class="label">Disease Name :-</span>
+                <span class="value-box" id="result">-</span>
+            </p>
+
+            <p>
+                <span class="label">Confidence Level :-</span>
+                <span class="value-box" id="confidence">-</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-section">
+
+        <div class="info-box">
+            <h2>Treatment Recommendations</h2>
+            <p id="treatmentText">-</p>
+        </div>
+
+        <div class="info-box">
+            <h2>Prevention Tips</h2>
+            <p id="preventionText">-</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const form = document.getElementById("uploadForm");
+const resultDiv = document.getElementById("result");
+const confidenceDiv = document.getElementById("confidence");
+const treatmentDiv = document.getElementById("treatmentText");
+const preventionDiv = document.getElementById("preventionText");
+
+// Show preview
+imageInput.onchange = function () {
+    const file = imageInput.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    }
+};
+
+// Send image to Flask
+form.onsubmit = async function (e) {
+    e.preventDefault();
+
+    const file = imageInput.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    resultDiv.innerHTML = "Predicting...";
+    confidenceDiv.innerHTML = "";
+
+    try {
+        const response = await fetch("/predict", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        resultDiv.innerHTML = data.disease;
+        confidenceDiv.innerHTML = data.confidence + "%";
+
+        treatmentDiv.innerHTML = data.treatment;
+        preventionDiv.innerHTML = data.prevention;
+
+    } catch (error) {
+        resultDiv.innerHTML = "Error predicting disease.";
+        confidenceDiv.innerHTML = "";
+    }
+};
+</script>
+</body>
+</html>

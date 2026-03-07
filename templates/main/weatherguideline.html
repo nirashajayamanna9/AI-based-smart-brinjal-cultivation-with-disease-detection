@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brinjal Hub - Weather Guideline</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Poppins, sans-serif;
+    background:#BCEC9F;
+}
+header {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+nav a {
+    margin: 0 15px;
+    font-size: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+nav a.active {
+    font-weight: 600;
+    color: #24C55E;
+}
+
+.logout-btn{
+    padding:6px 15px;
+    background:#1c521c;
+    color:white;
+    border-radius:6px;
+    text-decoration:none;
+}
+.container{
+    display:flex;
+    padding:40px 50px;
+    gap:40px;
+}
+.weather-box{
+    background:white;
+    border:2px solid #7cc17b;
+    padding:20px;
+    width:350px;
+    border-radius:10px;
+    text-align:center;
+}
+.date-input{
+    width:90%;
+    padding:10px;
+    border:2px solid #ccc;
+    border-radius:5px;
+    margin-bottom:10px;
+}
+.weather-btn{
+    background:#24C55E;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    cursor:pointer;
+}
+.weather-icon{
+    width:120px;
+    margin:15px 0;
+}
+.details{
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+    margin-top:15px;
+    border-top:1px solid #eee;
+}
+.guideline-section{
+    flex:1;
+}
+.section-title{
+    font-size:22px;
+    font-weight:600;
+    margin-top:20px;
+    color:#462389;
+}
+.section-title2{
+    font-size:22px;
+    font-weight:600;
+    margin-top:20px;
+    color:#7f3a2d;
+}
+.section-title3{
+    font-size:22px;
+    font-weight:600;
+    margin-top:20px;
+    color:#47652b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 BRINJAL HUB</h2>
+    <nav>
+        <a href="{{ url_for('mainhome') }}">Home</a>
+        <a href="{{ url_for('guideline') }}">Guideline</a>
+        <a href="{{ url_for('weatherguideline') }}" class="active">Weather Guideline</a>
+        <a href="{{ url_for('dieaseasDetection') }}">Disease Detection</a>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+
+<div class="weather-box">
+
+    <input type="text" id="city" class="date-input" placeholder="Enter city name">
+    <button class="weather-btn" onclick="checkWeather()">Get Weather</button>
+
+    <img src="{{ url_for('static', filename='images/weather.png') }}" id="icon" class="weather-icon">
+
+    <h2 id="temperature">--°C</h2>
+    <p id="condition">--</p>
+    <h3 id="cityName">--</h3>
+
+    <div class="details">
+        <div>
+            <p><b id="humidity">--%</b></p>
+            <p>Humidity</p>
+        </div>
+        <div>
+            <p><b id="windSpeed">-- Km/h</b></p>
+            <p>Wind Speed</p>
+        </div>
+    </div>
+</div>
+
+<div class="guideline-section">
+    <h1>Today's Care Guidelines</h1>
+
+    <p class="section-title">Watering</p>
+    <ul id="water-list"></ul>
+
+    <p class="section-title2">Fertilization</p>
+    <ul id="fertilizer-list"></ul>
+
+    <p class="section-title3">General Care</p>
+    <ul id="general-list"></ul>
+</div>
+
+</div>
+
+<script>
+async function checkWeather() {
+
+    const city = document.getElementById("city").value.trim();
+    const rainIcon = "{{ url_for('static', filename='images/rain.png') }}";
+    const cloudIcon = "{{ url_for('static', filename='images/cloude.png') }}"; 
+    const clearIcon = "{{ url_for('static', filename='images/clear.png') }}";
+    const defaultIcon = "{{ url_for('static', filename='images/weather.png') }}";
+    const humidityIcon = "{{ url_for('static', filename='images/humidity.png') }}";
+    const windIcon = "{{ url_for('static', filename='images/wind.png') }}";
+
+    if (!city){
+        alert("Please enter city name");
+        return;
+    }
+
+    try{
+        const response = await fetch("/get_weather", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({city: city})
+        });
+
+        const data = await response.json();
+
+        if(data.error){
+            alert(data.error);
+            return;
+        }
+
+        document.getElementById("cityName").innerHTML = data.city;
+        document.getElementById("temperature").innerHTML = data.temp + "°C";
+        document.getElementById("condition").innerHTML = data.condition;
+        document.getElementById("humidity").innerHTML = data.humidity + "%";
+        document.getElementById("windSpeed").innerHTML = data.wind + " Km/h";
+
+        document.getElementById("water-list").innerHTML = `<li>${data.watering}</li>`;
+        document.getElementById("fertilizer-list").innerHTML = `<li>${data.fertilizer}</li>`;
+        document.getElementById("general-list").innerHTML = `<li>${data.general}</li>`;
+        const icon = document.getElementById("icon");
+            const condition = data.condition;
+
+            if(condition === "Rain"){
+                icon.src = rainIcon;
+            }
+            else if(condition === "Clouds"){
+                icon.src = cloudIcon;
+            }
+            else if(condition === "Clear"){
+                icon.src = clearIcon;
+            }
+            else{
+                icon.src = defaultIcon;
+            }
+
+        }catch(error){
+            alert("Something went wrong!");
+            console.log(error);
+        }
+    }
+</script>
+
+</body>
+</html>

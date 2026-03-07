@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Brinjal Hub</title>
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+
+    <style>
+        * {
+            margin: 0;
+            /* padding: 0; */
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        /* HEADER (Copied from index.html) */
+        /* HEADER */
+        header {
+            width: 100%;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 40px;
+        }
+
+        nav a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        nav a.active,
+        nav a:hover {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+
+        /* HERO BANNER */
+        .hero {
+            margin-top: 20px;
+            background: #4d944d;
+            padding: 60px 10px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            color: #003300;
+            margin-bottom: 5px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: auto;
+            color: #003300;
+        }
+
+        /* CONTENT SECTION */
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 35px 45px;
+            background: #d9f7d9;
+        }
+
+        .text {
+            width: 60%;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .text h2 {
+            font-size: 28px;
+            color: #064d06;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .text p {
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .image-box img {
+            width: 330px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* RESPONSIVE
+        @media (max-width: 900px) {
+            nav {
+                gap: 15px;
+            }
+
+            .content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .text {
+                width: 100%;
+            }
+
+            .image-box img {
+                width: 80%;
+                margin-top: 20px;
+            }
+        } */
+         /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            nav a {
+                margin-left: 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 42px;
+            }
+
+            .description {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR (Copied from index) -->
+    <header>
+        <div class="logo">
+            
+            <h2>🌱 BRINJAL HUB</h2>
+        </div>
+
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}" class="active">About Us</a>
+            <a href="{{ url_for('contactus') }}">Contact Us</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign Up</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Growing Healthier Plants with AI</h1>
+        <p>
+            Empowering every gardener with intelligent disease detection and expert care guidance 
+            for sustainable brinjal cultivation.
+        </p>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="text">
+            <h2>🌱 Our Mission</h2>
+            <p>
+                At BRINJAL HUB, we believe that every gardener deserves access to reliable agricultural knowledge 
+                and intelligent tools—no matter their experience level or location.
+            </p>
+
+            <p>
+                Our mission is to transform brinjal cultivation by combining AI-powered technology with 
+                traditional farming wisdom, making plant care more accurate, efficient, and sustainable.
+            </p>
+
+            <p>
+                Through advanced image recognition and smart recommendations, our system helps users detect 
+                diseases early, receive personalized treatment guidance, and grow healthier, high-yield 
+                brinjal plants with confidence.
+            </p>
+        </div>
+
+        <div class="image-box">
+            <img src="{{ url_for('static', filename='images/aboutus.jpg') }}" alt="Brinjals">
+        </div>
+    </div>
+
+</body>
+</html>

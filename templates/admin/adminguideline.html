@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Growing Guideline Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/admin_dashboard" class="navbar-brand">← Admin Dashboard</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h3>Growing Guideline Management</h3>
+            <p class="text-muted">Manage complete growing guidelines</p>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        <!-- Add New Page Link -->
+        <a href="/add_guidelines" class="btn btn-success">
+            + Add New Guideline
+        </a>
+    </div>
+
+    <!-- Guideline Table -->
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Climate</th>
+                <th>Farm Size</th>
+                <th>Activity</th>
+                <th>Notes</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for g in guidelines %}
+            <tr>
+                <td>{{ g.id }}</td>
+                <td>{{ g.climate_type }}</td>
+                <td>{{ g.cultivation_size }}</td>
+                <td>{{ g.activity }}</td>
+                <td>{{ g.notes }}</td>
+                <td>{{ g.image_url }}</td>
+                <td>
+                    <a href="/edit_guideline/{{ g.id }}" class="btn btn-sm btn-warning">Edit</a>
+
+
+                    <a href="/delete_guideline/{{ g.id }}"
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('Delete this guideline?')">
+                    Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

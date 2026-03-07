@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brinjal Hub | Cultivation Guidelines</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --green-dark:#1b5e20;
+    --green-main:#2e7d32;
+    --green-light:#e8f5e9;
+    --white:#ffffff;
+    --shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--green-light);
+    color:#333;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    background: var(--white);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 60px;
+    box-shadow:var(--shadow);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+header h2{
+    margin:0;
+    color:var(--green-dark);
+    font-weight:700;
+}
+
+nav a{
+    margin:0 18px;
+    font-size:16px;
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+}
+
+nav a.active{
+    color:var(--green-main);
+    font-weight:700;
+}
+
+.logout-btn{
+    padding:8px 18px;
+    background:var(--green-dark);
+    color:white;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.logout-btn:hover{
+    background:#0f3d15;
+}
+
+/* ================= PAGE TITLE ================= */
+
+.page-title{
+    text-align:center;
+    margin:40px 20px 10px;
+}
+
+.page-title h1{
+    color:var(--green-main);
+    margin-bottom:8px;
+}
+
+.page-title p{
+    color:#555;
+    font-size:15px;
+}
+
+/* ================= INFO BADGE ================= */
+
+.info-badge{
+    display:inline-block;
+    background:var(--white);
+    padding:12px 28px;
+    border-radius:50px;
+    box-shadow:var(--shadow);
+    font-weight:600;
+    color:var(--green-dark);
+    margin-top:15px;
+}
+
+/* ================= GUIDELINE CARD ================= */
+
+.guideline-card{
+    max-width:1100px;
+    margin:25px auto;
+    background:var(--white);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:25px;
+    display:flex;
+    gap:25px;
+    align-items:flex-start;
+}
+
+/* IMAGE */
+.guideline-card img{
+    width:220px;
+    height:160px;
+    object-fit:cover;
+    border-radius:12px;
+    border:1px solid #ddd;
+}
+
+/* TABLE */
+.guideline-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.guideline-table th{
+    text-align:left;
+    padding:10px;
+    background:var(--green-main);
+    color:white;
+    font-weight:600;
+}
+
+.guideline-table td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    font-size:15px;
+}
+
+/* EMPTY MESSAGE */
+.empty{
+    text-align:center;
+    margin:50px;
+    font-weight:500;
+    color:#555;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+    header{
+        flex-direction:column;
+        gap:10px;
+        padding:15px;
+    }
+
+    .guideline-card{
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+    }
+
+    .guideline-card img{
+        width:100%;
+        height:200px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 BRINJAL HUB</h2>
+    <nav>
+        <a href="{{ url_for('mainhome') }}">Home</a>
+        <a href="{{ url_for('guideline') }}" class="active">Guideline</a>
+        <a href="{{ url_for('weatherguideline') }}">Weather Guideline</a>
+        <a href="{{ url_for('dieaseasDetection') }}">Disease Detection</a>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </nav>
+</header>
+
+<div class="page-title">
+    <h1>Brinjal Cultivation Guidelines</h1>
+    <p>Personalized cultivation practices based on your climate and land size</p>
+
+    <div class="info-badge">
+        {% if climate == "wet" %}
+            🌧️ Wet Zone
+        {% else %}
+            ☀️ Dry Zone
+        {% endif %}
+        • {{ size|capitalize }} Cultivation
+    </div>
+</div>
+
+{% if guidelines %}
+    {% for g in guidelines %}
+        <div class="guideline-card">
+
+            {% if g.image_url %}
+                <img src="{{ url_for('static', filename=g.image_url) }}" alt="{{ g.activity }}">
+            {% endif %}
+
+            <table class="guideline-table">
+                
+                <tr>
+                    <td><strong>{{ g.activity }}</strong></td>
+                    <td>{{ g.notes }}</td>
+                </tr>
+            </table>
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="empty">No cultivation guidelines available for your selection.</p>
+{% endif %}
+
+</body>
+</html>

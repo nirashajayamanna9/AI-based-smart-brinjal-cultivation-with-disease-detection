@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brinjal Hub</title>
+
+<style>
+    body{
+        margin:0;
+        font-family: Poppins, sans-serif;
+        background:#BCEC9F;
+    }
+
+    /* HEADER */
+    header{
+        background:white;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:15px 50px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header h2{
+        margin:0;
+        font-weight:600;
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+
+    nav a{
+        margin:0 20px;
+        font-size:18px;
+        text-decoration:none;
+        color:#000;
+    }
+
+    nav a.active{
+        font-weight:700;
+        color:#24C55E;
+    }
+
+    /* TOP SECTION */
+    .top-container{
+        display:flex;
+        justify-content:space-between;
+        padding:20px 40px;
+    }
+
+    .left-text{
+        max-width:50%;
+    }
+
+    .left-text h1{
+        font-size:45px;
+        margin-bottom:8px;
+    }
+
+    .left-text p{
+        font-size:20px;
+        margin-bottom:25px;
+    }
+
+    .start-btn{
+        padding:12px 35px;
+        font-size:20px;
+        background:#24C55E;
+        color:white;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+    }
+
+    .right-img img{
+        width:400px;
+        border-radius:10px;
+    }
+
+    /* 3 BOXES SECTION */
+    .three-box{
+        display:flex;
+        justify-content:space-around;
+        padding:5px;
+        gap:20px;
+    }
+
+    .box{
+        background:white;
+        padding:25px;
+        width:30%;
+        border-radius:10px;
+        text-align:center;
+        border:2px solid #7cc17b;
+    }
+
+    .box img{
+        width:120px;
+        margin-bottom:10px;
+    }
+
+    .box h2{
+        font-size:24px;
+        margin-bottom:10px;
+    }
+
+    .box p{
+        font-size:18px;
+    }
+    .logout-btn {
+    padding: 6px 15px;
+    background: #1c521c;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.logout-btn:hover {
+    background: #00cc22;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 BRINJAL HUB</h2>
+    <nav>
+        <a href="{{ url_for('mainhome') }}" class="active">Home</a>
+        <a href="{{ url_for('guideline') }}">Guideline</a>
+        <a href="{{ url_for('weatherguideline') }}">Weather Guideline</a>
+        <a href="{{ url_for('dieaseasDetection') }}">Disease Detection</a>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        
+    </nav>
+</header>
+
+<!-- TOP SECTION -->
+<div class="top-container">
+    <div class="left-text">
+        <h1>AI in Smart Brinjal Cultivation</h1>
+        <p>Harness the power of AI for optimized brinjal cultivation</p>
+        <h2>Welcome {{ name }}</h2>
+        <a href="{{ url_for('guideline') }}">
+            <button class="start-btn">Get Starterd →</button>
+        </a>
+
+    
+</button>
+    </div>
+
+    <div class="right-img">
+        <img src="/static/images/home page.jpeg" alt="Brinjal Image">
+    </div>
+</div>
+
+<!-- THREE BOX SECTION -->
+<div class="three-box">
+
+    <div class="box">
+        <h2>Upload Image</h2>
+        <img src="/static/images/uplaod_image.png">
+        <p>Choose an image</p>
+    </div>
+
+    <div class="box">
+        <h2>Disease Detection Results</h2>
+        <p><b>Fruit Rot</b><br>95% Confidence<br>The Brinjal fruit is affected by fungal or bacterial pathogen</p>
+    </div>
+
+    <div class="box">
+        <h2>Guideline</h2>
+        <p>1. Watering, fertilizing<br>2. Pest control<br>3. Keep soil moist but not waterlogged</p>
+    </div>
+
+</div>
+
+</body>
+</html>

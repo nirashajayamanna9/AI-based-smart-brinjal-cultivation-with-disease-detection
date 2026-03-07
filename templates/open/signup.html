@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Brinjal Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#e9f7df;
+        }
+
+        /* HEADER */
+        header{
+            position:fixed;
+            top:0;
+            width:100%;
+            background:#fff;
+            padding:18px 60px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            z-index:1000;
+        }
+
+        header h2{
+            color:#2d5016;
+            font-weight:600;
+        }
+
+        nav a{
+            margin-left:30px;
+            text-decoration:none;
+            color:#444;
+            font-weight:500;
+        }
+
+        nav a:hover, .active{
+            color:#4CAF50;
+            border-bottom:2px solid #4CAF50;
+            padding-bottom:4px;
+        }
+
+        /* MAIN LAYOUT */
+        .container{
+            margin-top:110px;
+            padding:40px 80px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:60px;
+            align-items:center;
+        }
+
+        /* LEFT PANEL */
+        .form-card{
+            background:#fff;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-card h1{
+            margin-bottom:20px;
+            font-size:28px;
+            color:#2e2e2e;
+        }
+
+        .switch-buttons{
+            display:flex;
+            margin-bottom:25px;
+        }
+
+        .switch-buttons a{
+            flex:1;
+            text-align:center;
+            padding:10px;
+            text-decoration:none;
+            font-weight:500;
+            border:1px solid #4CAF50;
+        }
+
+        .switch-buttons .inactive{
+            background:#fff;
+            color:#4CAF50;
+            border-radius:6px 0 0 6px;
+        }
+
+        .switch-buttons .active-btn{
+            background:#4CAF50;
+            color:#fff;
+            border-radius:0 6px 6px 0;
+        }
+
+        /* FORM STYLING */
+        form{
+            display:flex;
+            flex-direction:column;
+            gap:15px;
+        }
+
+        input, select{
+            padding:12px;
+            border-radius:6px;
+            border:1px solid #ccc;
+            font-size:14px;
+        }
+
+        label{
+            font-size:13px;
+            margin-bottom:5px;
+            font-weight:500;
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        button[type="submit"]{
+            margin-top:10px;
+            padding:12px;
+            background:#2d5016;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            font-size:15px;
+            cursor:pointer;
+        }
+
+        button[type="submit"]:hover{
+            background:#244014;
+        }
+
+        .error{
+            color:red;
+            font-size:13px;
+        }
+
+        .divider{
+            text-align:center;
+            margin:20px 0;
+            color:#777;
+        }
+
+        .social-login{
+            display:flex;
+            gap:10px;
+        }
+
+        .social-login button{
+            flex:1;
+            padding:10px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            background:#fff;
+            cursor:pointer;
+        }
+
+        .signin-text{
+            margin-top:15px;
+            font-size:14px;
+        }
+
+        .signin-text a{
+            color:#2b5e20;
+            font-weight:600;
+            text-decoration:none;
+        }
+
+        /* RIGHT SIDE */
+        .right-section{
+            text-align:center;
+        }
+
+        .right-section p{
+            font-size:18px;
+            margin-bottom:25px;
+            color:#333;
+        }
+
+        .right-section img{
+            width:380px;
+            height:380px;
+            object-fit:cover;
+            border-radius:50%;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px){
+            .container{
+                grid-template-columns:1fr;
+            }
+
+            .right-section{
+                display:none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌱 BRINJAL HUB</h2>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+        <a href="{{ url_for('contactus') }}">Contact Us</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('signup') }}" class="active">Sign Up</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- LEFT FORM -->
+    <div class="form-card">
+        <h1>Create Your Account</h1>
+
+        <div class="switch-buttons">
+            <a href="{{ url_for('login') }}" class="inactive">Sign In</a>
+            <a class="active-btn">Sign Up</a>
+        </div>
+
+        <form method="post">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="city" placeholder="City" required>
+
+            <div class="form-group">
+                <label>Climate Type</label>
+                <select name="climate_type" required>
+                    <option value="">--Select Climate--</option>
+                    <option value="wet">Wet Zone</option>
+                    <option value="dry">Dry Zone</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cultivation Size</label>
+                <select name="cultivation_size" required>
+                    <option value="">--Select Size--</option>
+                    <option value="small">Small Scale</option>
+                    <option value="medium">Medium Scale</option>
+                </select>
+            </div>
+
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+       
+
+        <div class="signin-text">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Sign In</a>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-section">
+        <p>
+            Create your account and start growing healthier brinjal plants
+            with AI-powered guidance and expert farming support.
+        </p>
+        <img src="{{ url_for('static', filename='images/login_signup_brinjal.png') }}">
+    </div>
+
+</div>
+
+</body>
+</html>

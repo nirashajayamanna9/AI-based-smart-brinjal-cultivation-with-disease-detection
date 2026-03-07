@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Growing Guideline</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/adminguideline" class="navbar-brand">← Back to Guidelines</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            Add New Growing Guideline
+        </div>
+
+        <div class="card-body">
+            <form action="{{ url_for('add_guidelines') }}" method="POST">
+
+    <!-- Climate Type -->
+    <label class="form-label">Climate Type</label>
+    <select name="climate_type" class="form-control mb-3" required>
+        <option disabled selected>Select Climate</option>
+        <option value="wet">Wet</option>
+        <option value="dry">Dry</option>
+    </select>
+
+    <!-- Cultivation Size -->
+    <label class="form-label">Cultivation Size</label>
+    <select name="cultivation_size" class="form-control mb-3" required>
+        <option disabled selected>Select Size</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+    </select>
+
+    <!-- Activity -->
+    <label class="form-label">Activity</label>
+    <input type="text" name="activity" class="form-control mb-3" required>
+
+    <!-- Notes -->
+    <label class="form-label">Notes</label>
+    <textarea name="notes" class="form-control mb-3" rows="4" required></textarea>
+
+    <!-- Image URL -->
+    <label class="form-label">Image URL</label>
+    <input type="text" name="image_url" class="form-control mb-3">
+
+    <!-- Action -->
+    <button type="submit" class="btn btn-success">Save Guideline</button>
+    <button type="reset" class="btn btn-secondary ms-2">Clear</button>
+
+</form>
+
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
