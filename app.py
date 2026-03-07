@@ -92,9 +92,7 @@ def about():
 def contactus():
     return render_template('open/contactus.html')
 
-# ======================
-# Login
-# ======================
+
 @app.route('/login', methods=['GET', 'POST'])
 
 def login():
@@ -102,10 +100,7 @@ def login():
 
         email = request.form.get("email")
         password = request.form.get("password")
-
-        # ==========================
-        # ADMIN LOGIN (HARDCODED)
-        # ==========================
+       
         if email == "admin@gmail.com" and password == "admin123":
             session.clear()
             session['admin'] = True
@@ -117,10 +112,7 @@ def login():
                     window.location.href = "/admin_dashboard";
                 </script>
             '''
-
-        # ==========================
-        # NORMAL USER LOGIN
-        # ==========================
+        
         user = User.query.filter_by(email=email).first()
 
         if user and user.password == password:
@@ -137,7 +129,7 @@ def login():
                     window.location.href = "/mainhome";
                 </script>
             '''
-
+        
         return '''
             <script>
                 alert("Invalid Email or Password!");
@@ -147,9 +139,7 @@ def login():
 
     return render_template("open/login.html")
 
-# ======================
-# Signup
-# ======================
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -183,18 +173,7 @@ def signup():
 
     return render_template('open/signup.html')
 
-# # ======================
-# # After Sign In
-# # ======================
-# @app.route('/aftersignin')
-# def aftersignin():
-#     if "user_id" not in session:
-#         return redirect(url_for('login'))
 
-#     return render_template(
-#         "aftersignin.html",
-#         name=session['name']
-#     )
 
 @app.route('/mainhome')
 def mainhome():
@@ -225,9 +204,9 @@ def mainhome():
 def weatherguideline():
     return render_template('main/weatherguideline.html')
 
-
-# ✅ THIS IS THE ROUTE CALLED FROM JAVASCRIPT
+#THIS IS THE ROUTE CALLED FROM JAVASCRIPT
 @app.route("/get_weather", methods=["POST"])
+
 def get_weather():
 
     data = request.get_json()
@@ -236,7 +215,7 @@ def get_weather():
     if not city:
         return jsonify({"error": "City is required"})
 
-    # ---- OpenWeather API ----
+
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
     response = requests.get(url)
     weather_data = response.json()
@@ -249,7 +228,7 @@ def get_weather():
     wind = weather_data["wind"]["speed"]
     condition = weather_data["weather"][0]["main"]
 
-    # ---- Get Guideline From Database ----
+   
     guideline = db.session.execute(
         text("""
             SELECT watering, fertilization, general_care
@@ -315,7 +294,7 @@ def predict():
     print("YOLO predicted:", class_name)
     print("Predicted index:", top_idx)
 
-    # 🔥 Match using ID instead of name
+    # Match using ID instead of name
     disease_data = DiseaseTreatment.query.filter(
     DiseaseTreatment.disease.ilike(class_name)
     ).first()
@@ -350,7 +329,7 @@ def guideline():
     climate_tye = user.climate_type.lower()
     cultivation_size = user.cultivation_size.lower()
 
-    # 🔥 MAIN QUERY
+    #  MAIN QUERY
     guidelines = CultivationGuideline.query.filter(
         CultivationGuideline.climate_type == climate_tye,
         CultivationGuideline.cultivation_size == cultivation_size
