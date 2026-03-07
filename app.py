@@ -316,8 +316,8 @@ def predict():
     print("Predicted index:", top_idx)
 
     # 🔥 Match using ID instead of name
-    disease_data = DiseaseTreatment.query.filter_by(
-        disease_id=top_idx
+    disease_data = DiseaseTreatment.query.filter(
+    DiseaseTreatment.disease.ilike(class_name)
     ).first()
 
     if disease_data:
