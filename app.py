@@ -140,39 +140,53 @@ def login():
     return render_template("open/login.html")
 
 
+from flask import render_template, request, redirect, url_for, flash
+from werkzeug.security import generate_password_hash
+# Assuming your models are in a file named models.py
+# from models import db, User 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
+       
+        name = request.form.get('name')
+        city = request.form.get('city')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        cultivation_size = request.form.get('cultivation_size')
+        climate_type = request.form.get('climate_type')
 
-        email = request.form['email']
+        
+        if not all([name, city, email, password, cultivation_size, climate_type]):
+            return render_template('open/signup.html', error="All fields are required")
 
-        # --------------------------
-        # Check duplicate email
-        # --------------------------
+        
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            return render_template(
-                'open/signup.html',
-                error="Email already registered"
-            )
+            return render_template('open/signup.html', error="Email already registered")
 
+        
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        
         user = User(
-            name=request.form['name'],
-            city=request.form['city'],
-            cultivation_size=request.form['cultivation_size'].lower(),
-            climate_type=request.form['climate_type'].lower(),
+            name=name,
+            city=city,
+            cultivation_size=cultivation_size.lower(),
+            climate_type=climate_type.lower(),
             email=email,
-            password=request.form['password']
+            password=hashed_password 
         )
 
-
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect(url_for('login'))
+        try:
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('login'))
+        except Exception as e:
+            db.session.rollback()
+            return render_template('open/signup.html', error="Database error. Please try again.")
 
     return render_template('open/signup.html')
-
 
 
 @app.route('/mainhome')
